@@ -34,8 +34,8 @@ public class MessageForm {
     private  String str;
 
 
-    @NotBlank(message = "カテゴリーを入力してください")
-    @Pattern(regexp = "^(?!　*$).*$", message = "カテゴリーを入力してください")
+    @NotBlank(message = "カテゴリを入力してください")
+    @Pattern(regexp = "^(?!　*$).*$", message = "カテゴリを入力してください")
     @Size(max = 10, message = "カテゴリは10文字以内で入力してください")
     private String category;
 

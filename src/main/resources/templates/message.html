@@ -22,12 +22,12 @@
             </label>
             <div th:if="${#fields.hasErrors('title')}" style="color:red;" th:errors="*{title}"></div>
 
-            <label>カテゴリー　
+            <label>カテゴリ　
                 <input type="text" th:field="*{category}" /><br/>
             </label>
             <div th:if="${#fields.hasErrors('category')}" style="color:red;" th:errors="*{category}"></div>
 
-            <label>投稿内容</label><br/>
+            <label>本文</label><br/>
             <textarea class="tweet-box" th:field="*{text}"></textarea><br/>
             <div th:if="${#fields.hasErrors('text')}" style="color:red;" th:errors="*{text}"></div>
 

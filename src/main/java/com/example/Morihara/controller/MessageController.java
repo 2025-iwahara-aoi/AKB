@@ -79,7 +79,7 @@ public class MessageController {
                 result.rejectValue("title", "errorMessage", "件名にNGワードが含まれています");
             }
             if (messageForm.getCategory().contains(word)) {
-                result.rejectValue("category", "errorMessage", "カテゴリーにNGワードが含まれています");
+                result.rejectValue("category", "errorMessage", "カテゴリにNGワードが含まれています");
             }
         }
         if (result.hasErrors()) {

@@ -34,7 +34,7 @@
         ～
         <label><input type="date" name="endDate" th:value="${end}"/></label>
 
-        <label>カテゴリー　<input type="text" name="category" th:value="${category}"/></label>
+        <label>カテゴリ　<input type="text" name="category" th:value="${category}"/></label>
 
         <button type="submit">絞込</button>
     </form>
@@ -44,7 +44,7 @@
     <div class="text">
         <strong>Id :</strong> <span th:text="${messageInfo.id}"/>
         <strong>件名 :</strong> <span th:text="${messageInfo.title}"/>
-        <strong>カテゴリー :</strong> <span th:text="${messageInfo.category}"/><br/>
+        <strong>カテゴリ :</strong> <span th:text="${messageInfo.category}"/><br/>
 
         <strong>投稿 :</strong><br/>
         <span th:text="${messageInfo.text}" class="wrap-text"/>
