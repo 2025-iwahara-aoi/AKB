@@ -5,9 +5,7 @@ import com.example.Morihara.service.ReadService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -19,7 +17,7 @@ public class ReadController {
 
     @PostMapping("/read")
     public String read (ReadForm read, RedirectAttributes redirectAttributes) {
-        // アカウント重複チェック
+        // 既読重複チェック
         if ((!readService.UserIdDuB(read.getUserId(), read.getMessageId())) && (!readService.MessageIdDuB(read.getMessageId(), read.getUserId()))) {
             return "redirect:/home";
         }

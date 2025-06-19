@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -70,6 +71,29 @@ public class CommentController {
         if (user == null) {
             return new ModelAndView("redirect:/home");
         }
+
+//        // homeで必要な投稿一覧を取得
+//        List<MessageForm> messageList = messageService.findByMessages(null, null, null);
+//        for (MessageForm message : messageList) {
+//            List<CommentForm> comments = commentService.findCommentsByMessageId(message.getId());
+//            message.setComments(comments);
+//        }
+//        //NGワードの条件式
+//        ModelAndView mav = new ModelAndView("home");
+//        String str = commentForm.getText();
+//
+//        List<String> ngWords = Arrays.asList("死", "殺", "バカ");
+//
+//        //「：」は、ngWordsの中身を一つずつ取り出して、wordに入れる処理
+//        for (String word : ngWords) {
+//            if (str.contains(word)) {
+//                result.rejectValue("text", "errorMessage", "不正なワードが含まれています");
+//                mav.addObject("commentInfo", commentForm);
+//                mav.addObject("messages", messageList);
+//                mav.addObject("formModel", user);
+//                return mav;
+//            }
+//        }
 
         // 正しい userId をセット
         commentForm.setUserId(user.getId());

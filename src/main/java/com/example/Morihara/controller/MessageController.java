@@ -66,30 +66,31 @@ public class MessageController {
     ) throws ParseException {
         session = request.getSession();
         UserForm user = (UserForm) session.getAttribute("user"); // セッションから再取得
-        if (result.hasErrors()) {
-            ModelAndView mav = new ModelAndView("/message");
-            mav.addObject("messageInfo", messageForm);
-            mav.addObject("formModel", user);
-            return mav;
-        }
-        //NGワードの条件式
-        ModelAndView mav = new ModelAndView("message");
-        String str = messageForm.getText();
 
-        List<String> ngWords = Arrays.asList("死", "殺", "バカ");
+        //NGワードの条件式
+        List<String> ngWords = Arrays.asList("死", "殺", "バカ","よこすか");
 
         //「：」は、ngWordsの中身を一つずつ取り出して、wordに入れる処理
         for (String word : ngWords) {
-            if (str.contains(word)) {
-                result.rejectValue("text", "errorMessage", "不正なワードが含まれています");
-                mav.addObject("messageInfo", messageForm);
-                mav.addObject("formModel", user);
-                return mav;
+            if (messageForm.getText().contains(word)) {
+                result.rejectValue("text", "errorMessage", "本文にNGワードが含まれています");
             }
+            if (messageForm.getTitle().contains(word)) {
+                result.rejectValue("title", "errorMessage", "件名にNGワードが含まれています");
+            }
+            if (messageForm.getCategory().contains(word)) {
+                result.rejectValue("category", "errorMessage", "カテゴリーにNGワードが含まれています");
+            }
+        }
+        if (result.hasErrors()) {
+            ModelAndView mav = new ModelAndView("message");
+            mav.addObject("messageInfo", messageForm);
+            mav.addObject("formModel", user);
+            // errorsはバインディング済みなので自動的にビューへ渡る
+            return mav;
         }
 
         messageForm.setUserId(user.getId());
-
         // 投稿をテーブルに格納
         messageService.saveMessage(messageForm);
         // rootへリダイレクト

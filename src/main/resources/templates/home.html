@@ -66,7 +66,7 @@
               </p>
           </div>
                 <form th:action="@{/read}" th:method="post"
-                th:if="${session.user.id != messageInfo.userId || messageInfo.reads == null}" >
+                th:if="${session.user.id != messageInfo.userId}" >
                     <input type="hidden" name="userId" th:value="${session.user.id}"/>
                     <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
                     <input type="submit" value="既読にする"/>

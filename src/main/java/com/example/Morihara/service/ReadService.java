@@ -1,13 +1,8 @@
 package com.example.Morihara.service;
 
-import com.example.Morihara.controller.Form.CommentForm;
-import com.example.Morihara.controller.Form.MessageForm;
 import com.example.Morihara.controller.Form.ReadForm;
 import com.example.Morihara.repository.ReadRepository;
-import com.example.Morihara.repository.entity.Comment;
-import com.example.Morihara.repository.entity.Message;
 import com.example.Morihara.repository.entity.Read;
-import com.example.Morihara.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
