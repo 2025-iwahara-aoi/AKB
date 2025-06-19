@@ -37,7 +37,6 @@ public class LoginController {
         String errorMessage = (String) session.getAttribute("errorMessageForm");
         //一度だけ表示させるコード
         session.removeAttribute("errorMessageForm");
-        session.invalidate();
         // 画面遷移先を指定
         mav.setViewName("login");
         // 準備した空のFormを保管

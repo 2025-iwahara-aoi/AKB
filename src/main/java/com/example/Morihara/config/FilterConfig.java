@@ -14,10 +14,17 @@ public class FilterConfig {
         bean.setFilter(new LoginFilter());
         //ログイン情報が必要なURL
         bean.addUrlPatterns("/home");
-        bean.addUrlPatterns("/management");
         bean.addUrlPatterns("/singUp");
         bean.addUrlPatterns("/message");
         bean.addUrlPatterns("/userEdit/{id}");
+        bean.addUrlPatterns("/inset");
+        bean.addUrlPatterns("/update");
+        bean.addUrlPatterns("/management");
+        bean.addUrlPatterns("/aoi");
+        bean.addUrlPatterns("/mori");
+        bean.addUrlPatterns("/addMessage");
+        bean.addUrlPatterns("/addComment");
+        bean.addUrlPatterns("/read" );
 
         bean.setOrder(1);
         return bean;

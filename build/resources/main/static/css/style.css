@@ -36,6 +36,41 @@ display: block;
 	width: 80%;
 }
 
+.read-button {
+    text-align: right;
+ }
+ .text-time {
+ text-align: left;
+ }
+
+.mouse {
+    text-align: right;
+ }
+ .word {
+     text-align: right;
+  }
+
+
+.mouse{
+     margin: 30px 0px 0px 30px;
+     display: inline-block;
+      position   : relative;
+    }
+    .mouse:hover .word {
+      display: inline;
+    }
+.word {
+  position   : right;
+  display: none;
+  padding: 2px;
+  color: licensable;
+  border-radius: 5px;
+  width:100px;
+  top: 50px;
+  left: 0px;
+  font-size: 12px;
+  text-align: right;
+}
 .comment-text {
     white-space: pre-wrap;
 }

@@ -45,7 +45,6 @@ public class UserEditController {
             user = userService.findById(Integer.parseInt(strId));
             // 準備した空のFormを保管
             mav.addObject("formModel", user);
-
         }
         if(user == null) {
             redirectAttributes.addFlashAttribute("errorMessageForm", "不正なパラメータが入力されました");

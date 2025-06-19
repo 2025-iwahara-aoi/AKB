@@ -11,7 +11,7 @@
     <div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert">
         <strong th:text="${errorMessageForm}"></strong>
     </div>
-    <p>本日の日付: <span th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd')}"></span></p>
+    <p>本日の日付: <span th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm:ss')}"></span></p>
 </div>
 <form th:action="@{/logout}" class="logAut">
     <button type="submit">ログアウト</button>
@@ -19,7 +19,7 @@
 <!--and session.user.departmentId == session.user.department.id == 1 session.user.branch.id -->
 <form th:action="@{/management}" th:method="get" th:object="${user}"
       th:if="${session.user.branchId == 1 and session.user.departmentId == 1}">
-    <button type="submit">ユーザー管理画面</button>
+    <button type="submit">ユーザー管理</button>
 </form>
 
 <div class="main-contents">
@@ -34,19 +34,22 @@
         ～
         <label><input type="date" name="endDate" th:value="${end}"/></label>
 
-        <label>カテゴリー　<input type="text" name="category" th:value="${category}"/></label>
+        <label>カテゴリ　<input type="text" name="category" th:value="${category}"/></label>
 
         <button type="submit">絞込</button>
     </form>
 </div>
 
 <div class="message-icon" th:each="messageInfo : ${messages}">
+    <div class="text-time">
+        <strong>投稿日時：</strong>
+        <span th:text="${#dates.format(messageInfo.createdDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
+    </div>
     <div class="text">
-        Id : <span th:text="${messageInfo.id}"/>
-        件名 : <span th:text="${messageInfo.title}"/>
-        カテゴリー : <span th:text="${messageInfo.category}"/><br/>
-
-        <strong>投稿 :</strong><br/>
+        <strong>Id :</strong> <span th:text="${messageInfo.id}"/>
+        <strong>件名 :</strong> <span th:text="${messageInfo.title}"/>
+        <strong>カテゴリ :</strong> <span th:text="${messageInfo.category}"/><br/>
+        <strong>投稿 </strong><br/>
         <span th:text="${messageInfo.text}" class="wrap-text"/>
 
     </div>
@@ -57,6 +60,26 @@
                 <input type="hidden" name="_method" value="delete"/>
                 <button type="submit" onclick="return confirm('消去しますか？');">消去</button>
             </form>
+        </div>
+        <!--既読未読機能-->
+        <div class="read-button">
+          <div th:each="read : ${messageInfo.reads}">
+              <p th:if="${read.userId == session.user.id}"  style="color:red">
+                  既読済み
+              </p>
+          </div>
+                <form th:action="@{/read}" th:method="post"
+                th:if="${session.user.id != messageInfo.userId}" >
+                    <input type="hidden" name="userId" th:value="${session.user.id}"/>
+                    <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
+                    <input type="submit" value="既読にする"/>
+                </form>
+
+            <div class="mouse">  既読数　　:　<span class="wrap-text" th:text="${messageInfo.count}"></span><br/>
+                <div class="word" >
+                    既読済アカウント<p th:each="read : ${messageInfo.reads}"th:text="${read.account}"></p>
+                </div>
+            </div>
         </div>
         <!-- コメント投稿フォーム -->
         <form th:action="@{/addComment}" method="post" th:object="${commentForm}">

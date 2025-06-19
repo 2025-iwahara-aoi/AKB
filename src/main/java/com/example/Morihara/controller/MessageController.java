@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class MessageController {
@@ -60,16 +62,34 @@ public class MessageController {
             @Valid
             @ModelAttribute("messageInfo") MessageForm messageForm,
             BindingResult result,
-    Model model
+            Model model
     ) throws ParseException {
         session = request.getSession();
         UserForm user = (UserForm) session.getAttribute("user"); // セッションから再取得
+
+        //NGワードの条件式
+        List<String> ngWords = Arrays.asList("死", "殺", "バカ","よこすか");
+
+        //「：」は、ngWordsの中身を一つずつ取り出して、wordに入れる処理
+        for (String word : ngWords) {
+            if (messageForm.getText().contains(word)) {
+                result.rejectValue("text", "errorMessage", "本文にNGワードが含まれています");
+            }
+            if (messageForm.getTitle().contains(word)) {
+                result.rejectValue("title", "errorMessage", "件名にNGワードが含まれています");
+            }
+            if (messageForm.getCategory().contains(word)) {
+                result.rejectValue("category", "errorMessage", "カテゴリにNGワードが含まれています");
+            }
+        }
         if (result.hasErrors()) {
-            ModelAndView mav = new ModelAndView("/message");
+            ModelAndView mav = new ModelAndView("message");
             mav.addObject("messageInfo", messageForm);
             mav.addObject("formModel", user);
+            // errorsはバインディング済みなので自動的にビューへ渡る
             return mav;
         }
+
         messageForm.setUserId(user.getId());
         // 投稿をテーブルに格納
         messageService.saveMessage(messageForm);
