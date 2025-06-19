@@ -39,6 +39,10 @@ display: block;
 .read-button {
     text-align: right;
  }
+ .text-time {
+ text-align: left;
+ }
+
 .mouse {
     text-align: right;
  }

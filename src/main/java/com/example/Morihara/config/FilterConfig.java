@@ -20,6 +20,7 @@ public class FilterConfig {
         bean.addUrlPatterns("/userEdit/{id}");
         bean.addUrlPatterns("/inset");
         bean.addUrlPatterns("/update");
+        bean.addUrlPatterns("/management");
         bean.addUrlPatterns("/aoi");
         bean.addUrlPatterns("/mori");
         bean.addUrlPatterns("/addMessage");
