@@ -19,7 +19,7 @@
 <!--and session.user.departmentId == session.user.department.id == 1 session.user.branch.id -->
 <form th:action="@{/management}" th:method="get" th:object="${user}"
       th:if="${session.user.branchId == 1 and session.user.departmentId == 1}">
-    <button type="submit">ユーザー管理画面</button>
+    <button type="submit">ユーザー管理</button>
 </form>
 
 <div class="main-contents">
@@ -66,7 +66,7 @@
               </p>
           </div>
                 <form th:action="@{/read}" th:method="post"
-                th:if="${session.user.id != messageInfo.userId || messageInfo.reads == null}" >
+                th:if="${session.user.id != messageInfo.userId}" >
                     <input type="hidden" name="userId" th:value="${session.user.id}"/>
                     <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
                     <input type="submit" value="既読にする"/>
