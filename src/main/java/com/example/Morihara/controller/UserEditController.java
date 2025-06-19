@@ -51,6 +51,8 @@ public class UserEditController {
             return new ModelAndView("redirect:/management");
         }
 
+
+
         //ログインユーザ情報チェック
         session = request.getSession();
         UserForm sessionUser = (UserForm) session.getAttribute("user");
@@ -108,6 +110,11 @@ public class UserEditController {
                 !userForm.getPassword().equals(userForm.getPasswordConfirm())) {
             result.rejectValue("passwordConfirm", null, "パスワードとパスワード確認が一致しません");
         }
+
+//        // アカウント重複チェック
+//        if (userService.AccountDuB(userForm.getAccount())) {
+//            result.rejectValue("account", "duplicate", "アカウントが重複しています");
+//        }
 
 
         // 支社と部署の組み合わせチェック
