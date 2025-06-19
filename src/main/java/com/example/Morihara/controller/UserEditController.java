@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller
 public class UserEditController {
@@ -51,8 +50,6 @@ public class UserEditController {
             redirectAttributes.addFlashAttribute("errorMessageForm", "不正なパラメータが入力されました");
             return new ModelAndView("redirect:/management");
         }
-
-
 
         //ログインユーザ情報チェック
         session = request.getSession();
@@ -112,30 +109,9 @@ public class UserEditController {
             result.rejectValue("passwordConfirm", null, "パスワードとパスワード確認が一致しません");
         }
 
-//        // アカウント重複チェック
-//        if (userService.AccountDuB(userForm.getAccount())) {
-//            result.rejectValue("account", "duplicate", "アカウントが重複しています");
-//        }
-
-
         // 支社と部署の組み合わせチェック
         if (!userService.BranchDepartmentComb(userForm.getBranchId(), userForm.getDepartmentId())) {
             result.rejectValue("branchId", "mismatch","支社と部署の組み合わせが不正です");
-        }
-
-        if(userForm.getPassword().matches("^[a-zA-Z]+$") && (userForm.getPassword().length() >= 6 && userForm.getPassword().length()<= 20)){
-            userService.saveUser(userForm);
-            return "redirect:/management";
-        }
-
-
-
-        if (!userForm.getPassword().isBlank() &&!userForm.getPassword().matches("^[a-zA-Z]+$")){
-            result.rejectValue("password", "duplicate","アカウントは半角かつ6文字以上20文字以内で入力してください");
-        }
-
-        if((!userForm.getPassword().isBlank() && userForm.getPassword().length() < 6) || userForm.getPassword().length() > 20){
-            result.rejectValue("password", "duplicate","パスワードは6文字以上20文字以内で入力してください");
         }
 
         if (result.hasErrors()) {
@@ -143,13 +119,7 @@ public class UserEditController {
             model.addAttribute("departmentOptions", getDepartmentOptions());
             return "userEdit"; // フォワードで遷移
         }
-
-
-
-        UserForm userPass = userService.findByAccount(userForm.getAccount());
-
-
-        userService.saveUser(userPass);
+        userService.saveUser(userForm);
         return "redirect:/management";
     }
 }

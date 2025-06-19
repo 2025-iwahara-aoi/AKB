@@ -26,6 +26,7 @@ public class UserService {
         return !results.isEmpty();
     }
 
+
     //支店と部署の組み合わせチェック。
     public boolean BranchDepartmentComb(Integer branchId, Integer departmentId){
         //有効な組み合わせを力技解決
