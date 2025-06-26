@@ -39,74 +39,78 @@
         <button type="submit">絞込</button>
     </form>
 </div>
+<div class="blackboard">
+    <div class="blackboard-content">
+        <h2 class="chalk-title">掲示板</h2>
+        <div class="message-icon" th:each="messageInfo : ${messages}">
+            <div class="text-time">
+                <strong>投稿日時：</strong>
+                <span th:text="${#dates.format(messageInfo.createdDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
+            </div>
+            <div class="text">
+                <strong>Id :</strong> <span th:text="${messageInfo.id}"/>
+                <strong>件名 :</strong> <span th:text="${messageInfo.title}"/>
+                <strong>カテゴリ :</strong> <span th:text="${messageInfo.category}"/><br/>
+                <strong>投稿 </strong><br/>
+                <span th:text="${messageInfo.text}" class="wrap-text"/>
 
-<div class="message-icon" th:each="messageInfo : ${messages}">
-    <div class="text-time">
-        <strong>投稿日時：</strong>
-        <span th:text="${#dates.format(messageInfo.createdDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
-    </div>
-    <div class="text">
-        <strong>Id :</strong> <span th:text="${messageInfo.id}"/>
-        <strong>件名 :</strong> <span th:text="${messageInfo.title}"/>
-        <strong>カテゴリ :</strong> <span th:text="${messageInfo.category}"/><br/>
-        <strong>投稿 </strong><br/>
-        <span th:text="${messageInfo.text}" class="wrap-text"/>
+            </div>
+            <div class="action-button">
+                <div class="delete-button">
+                    <form th:action="@{/message/delete/{id}(id=${messageInfo.id})}" th:method="post"
+                          th:if="${session.user != null and session.user.id == messageInfo.userId}">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" onclick="return confirm('消去しますか？');">消去</button>
+                    </form>
+                </div>
+                <!--既読未読機能-->
+                <div class="read-button">
+                    <div th:each="read : ${messageInfo.reads}">
+                        <p th:if="${read.userId == session.user.id}" style="color:red">
+                            既読済み
+                        </p>
+                    </div>
+                    <form th:action="@{/read}" th:method="post"
+                          th:if="${session.user.id != messageInfo.userId}">
+                        <input type="hidden" name="userId" th:value="${session.user.id}"/>
+                        <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
+                        <input type="submit" value="既読にする"/>
+                    </form>
 
-    </div>
-    <div class="action-button">
-        <div class="delete-button">
-            <form th:action="@{/message/delete/{id}(id=${messageInfo.id})}" th:method="post"
-                  th:if="${session.user != null and session.user.id == messageInfo.userId}">
-                <input type="hidden" name="_method" value="delete"/>
-                <button type="submit" onclick="return confirm('消去しますか？');">消去</button>
-            </form>
-        </div>
-        <!--既読未読機能-->
-        <div class="read-button">
-          <div th:each="read : ${messageInfo.reads}">
-              <p th:if="${read.userId == session.user.id}"  style="color:red">
-                  既読済み
-              </p>
-          </div>
-                <form th:action="@{/read}" th:method="post"
-                th:if="${session.user.id != messageInfo.userId}" >
-                    <input type="hidden" name="userId" th:value="${session.user.id}"/>
+                    <div class="mouse"> 既読数　　:　<span class="wrap-text" th:text="${messageInfo.count}"></span><br/>
+                        <div class="word">
+                            既読済アカウント<p th:each="read : ${messageInfo.reads}" th:text="${read.account}"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- コメント投稿フォーム -->
+                <form th:action="@{/addComment}" method="post" th:object="${commentForm}">
                     <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
-                    <input type="submit" value="既読にする"/>
-                </form>
+                    <!--            ここで、DBにuserId登録してるセッションにつながってるものを-->
+                    <!-- セッションにuserがいるときだけuserIdを渡す -->
 
-            <div class="mouse">  既読数　　:　<span class="wrap-text" th:text="${messageInfo.count}"></span><br/>
-                <div class="word" >
-                    既読済アカウント<p th:each="read : ${messageInfo.reads}"th:text="${read.account}"></p>
+                    <textarea th:field="*{text}" placeholder="コメントを書く"></textarea>
+
+                    <!-- バリデーションエラー表示 -->
+                    <div th:if="${errorMessageId == messageInfo.id} and ${#fields.hasErrors('text')}" style="color:red;"
+                         th:errors="*{text}" class="error-message"></div>
+
+                    <button type="submit">送信</button>
+                </form>
+                <!-- コメント表示 -->
+                <div class="comments" th:each="comment : ${messageInfo.comments}">
+                    <p class="comment-text" th:text="${comment.text}"></p>
+
+                    <!-- 自分のコメントだけ削除ボタン表示 -->
+                    <form th:if="${session.user != null and session.user.id == comment.userId}"
+                          th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="commentDelete-button"
+                                onclick="return confirm('このコメントを消去しますか？');">消去
+                        </button>
+                    </form>
                 </div>
             </div>
-        </div>
-        <!-- コメント投稿フォーム -->
-        <form th:action="@{/addComment}" method="post" th:object="${commentForm}">
-            <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
-            <!--            ここで、DBにuserId登録してるセッションにつながってるものを-->
-            <!-- セッションにuserがいるときだけuserIdを渡す -->
-
-            <textarea th:field="*{text}" placeholder="コメントを書く"></textarea>
-
-            <!-- バリデーションエラー表示 -->
-            <div th:if="${errorMessageId == messageInfo.id} and ${#fields.hasErrors('text')}" style="color:red;"
-                 th:errors="*{text}" class="error-message"></div>
-
-            <button type="submit">送信</button>
-        </form>
-        <!-- コメント表示 -->
-        <div class="comments" th:each="comment : ${messageInfo.comments}">
-            <p class="comment-text" th:text="${comment.text}"></p>
-
-            <!-- 自分のコメントだけ削除ボタン表示 -->
-            <form th:if="${session.user != null and session.user.id == comment.userId}"
-                  th:action="@{/comment/delete/{id}(id=${comment.id})}" method="post">
-                <input type="hidden" name="_method" value="delete"/>
-                <button type="submit" class="commentDelete-button"
-                        onclick="return confirm('このコメントを消去しますか？');">消去
-                </button>
-            </form>
         </div>
     </div>
 </div>

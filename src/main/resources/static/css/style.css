@@ -1,6 +1,51 @@
 
 body {
-	background-color: #E1E8EE;
+  background-color:  #4C9A2A;  /* 明るい緑 */
+   color: #1a381b;  /* 濃い緑っぽい文字色 */
+   font-family: 'Chalkboard SE', cursive, sans-serif;
+ }
+
+/* 黒板外枠 */
+.blackboard {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+  background-color: #1a381b;
+  border: 8px solid #5a6b5a;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.chalk-title {
+  font-size: 2rem;
+  color: #f5f5f0;
+  text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
+}
+
+/* 投稿内容 */
+.message-icon {
+  background-color: #3f5c3f;  /* 濃い緑 */
+  padding: 15px;
+  margin-bottom: 16px;
+  border: 3px solid #2a3d2a;
+  border-radius: 6px;
+  color: #DCEAD7;  /* 明るめの文字色 */
+  text-align: left;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+
+/* チョーク文字風 */
+.chalk-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #f5f5f0;
+  text-shadow:
+    -1px -1px 0 rgba(0,0,0,0.8),
+     1px 1px 0 rgba(255,255,255,0.2);
 }
 
 .header-contents {
@@ -27,21 +72,19 @@ display: block;
 	margin-left: auto;
 }
 
-.message-icon {
-	margin: 20px;
-	padding: 10px 10px 5px 10px;
-	    text-align:  center;        /* 中央寄せ */
-        background-color:  #ddd;    /* 背景色指定 */
-	height: 100%;
-	width: 80%;
-}
+/* マネジメント画面 */
 .main-management {
-	margin: 7px;
-	 float:left;
-	padding: 10px 10px 5px 10px;
-        background-color: #ddd;   /* 背景色指定 */
-        	height: 100%;
-        	width: 25%;
+  margin: 20px;
+  padding: 10px 10px 5px 10px;
+  float:left;
+  background-color: #3f5c3f; /* 投稿内容と同じ濃い緑 */
+  border: 3px solid #2a3d2a;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  color: #DCEAD7; /* 明るい文字色 */
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 25%;
 }
 
 .back {
