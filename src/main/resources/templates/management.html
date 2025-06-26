@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <title>ユーザー管理画面</title>
-  </head>
-  <body>
-    <div class="header-contents">
-      <h1>ユーザー管理画面</h1>
-    </div>
-    <div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert" style="color:red;">
-      <strong th:text="${errorMessageForm}"></strong>
-    </div>
-    <form th:action="@{/singUp}">
-      <button type="submit">ユーザー登録画面</button>
-    </form>
-    <form th:action="@{/home}">
-      <button type="submit">戻りまーーーす！！</button>
-    </form>
-    <div class="main-contents">
-      <!--  新規タスク -->
-      <tr th:each="user : ${users}" th:object="${users}">
-        <td>  ID　　:　<span class="wrap-text" th:text="${user.id}"></span></td><br/>
-        <td>アカウント名：　<span class="wrap-text" th:text="${user.account}"></span></td><br/>
-        <td>  氏名 ：　<span class="wrap-text" th:text="${user.name}"></span></td><br/>
-        <td>  支社　:　<span class="wrap-text" th:text="${user.branch.branchName}"></span></td><br/>
-        <td>部署　：　<span class="wrap-text" th:text="${user.department.departmentName}"></span></td><br/>
+</head>
+<body>
+<div class="header-contents">
+    <h1>ユーザー管理画面</h1>
+</div>
+<div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert" style="color:red;">
+    <strong th:text="${errorMessageForm}"></strong>
+</div>
+<form th:action="@{/singUp}">
+    <button type="submit">ユーザー登録画面</button>
+</form>
+<form th:action="@{/home}" class="back">
+    <button type="submit">戻りまーーーす！！</button>
+</form>
 
-          <form th:action="@{/updateStatus}" th:method="post">
-            <input type="hidden" name="id" th:value="${user.id}" />
-            <select name="status">
+<div class="main-management" th:each="user : ${users}" th:object="${users}">
+    <!--  新規タスク -->
+    <td> ID　　:　<span class="wrap-text" th:text="${user.id}"></span></td>
+    <br/>
+    <td>アカウント名：　<span class="wrap-text" th:text="${user.account}"></span></td>
+    <br/>
+    <td> 氏名 ：　<span class="wrap-text" th:text="${user.name}"></span></td>
+    <br/>
+    <td> 支社　:　<span class="wrap-text" th:text="${user.branch.branchName}"></span></td>
+    <br/>
+    <td>部署　：　<span class="wrap-text" th:text="${user.department.departmentName}"></span></td>
+    <br/>
+
+    <form th:action="@{/updateStatus}" th:method="post"
+          th:if="${user.account != akiba}"> <!--   自分ステータスは表示させないコード     -->
+
+        <select name="status">
             <option th:each="status : ${statuses}"
                     th:value="${status.ordinal()}"
                     th:text="${status}"
                     th:selected="${status.ordinal() == user.isStopped}">
             </option>
-          </select>
-            <button type="submit" onclick="return confirm('変更しますか？');">変更</button>
-          </form>
-        </td>
-        <td>
-          <form th:action="@{/userEdit/id={id}(id=${user.id})}" >
+        </select>
+        <button type="submit" onclick="return confirm('変更しますか？');">変更</button>
+    </form>
+
+    <td>
+        <form th:action="@{/userEdit/id={id}(id=${user.id})}">
             <input type="submit" value="編集"/>
-          </form>
-        </td>
-      </tr>
-    </div>
-  </body>
+        </form>
+    </td>
+
+</div>
+
+</body>
 </html>

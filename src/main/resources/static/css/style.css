@@ -35,6 +35,18 @@ display: block;
 	height: 100%;
 	width: 80%;
 }
+.main-management {
+	margin: 7px;
+	 float:left;
+	padding: 10px 10px 5px 10px;
+        background-color: #ddd;   /* 背景色指定 */
+        	height: 100%;
+        	width: 25%;
+}
+
+.back {
+ text-align: left;
+ }
 
 .read-button {
     text-align: right;

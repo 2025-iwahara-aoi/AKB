@@ -53,11 +53,13 @@ public class UserManageController {
             userRegisterInfo.setBranch(userMember.getBranch());
             userRegisterInfo.setDepartment(userMember.getDepartment());
         }
+        UserForm akiba = (UserForm) request.getSession().getAttribute("user");
         // 画面遷移先を指定
         mav.setViewName("/management");
         // 投稿データオブジェクトを保管
         mav.addObject("users", userFormList);
         model.addAttribute("statuses", User.isStopped.values());
+        model.addAttribute("akiba", akiba.getAccount()); // 自分ステータスを表示させないための
         return mav;
     }
 

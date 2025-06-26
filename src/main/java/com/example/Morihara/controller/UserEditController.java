@@ -42,12 +42,12 @@ public class UserEditController {
 
         //URLパターンチェック
         UserForm user = null;
-        if(!StringUtils.isBlank(strId) && strId.matches("^[0-9]*$")) {
+        if (!StringUtils.isBlank(strId) && strId.matches("^[0-9]*$")) {
             user = userService.findById(Integer.parseInt(strId));
             // 準備した空のFormを保管
             mav.addObject("formModel", user);
         }
-        if(user == null) {
+        if (user == null) {
             redirectAttributes.addFlashAttribute("errorMessageForm", "不正なパラメータが入力されました");
             return new ModelAndView("redirect:/management");
         }
@@ -58,15 +58,15 @@ public class UserEditController {
 
         //FilterConfig及びLoginFilterの機能の代替
         //"userEdit/{id}"の{id}の部分がFilterConfigで記載方法がない
-        if(sessionUser == null){
+        if (sessionUser == null) {
             session.setAttribute("errorMessageForm", "ログインしてください");
             return new ModelAndView("redirect:/");
         }
 
         List<User> users = userService.findByIdWithDepartmentAndBranch(sessionUser.getId());
-        User userInfoForm =  users.get(0);
+        User userInfoForm = users.get(0);
 
-        if(userInfoForm.getDepartment().getId() != 1 && userInfoForm.getDepartmentId() != 1){
+        if (userInfoForm.getDepartment().getId() != 1 && userInfoForm.getDepartmentId() != 1) {
             redirectAttributes.addFlashAttribute("errorMessageForm", "不正なパラメータが入力されました");
             return new ModelAndView("redirect:/management");
         }
@@ -103,36 +103,34 @@ public class UserEditController {
             @Validated(UserForm.EditGroup.class)
             @Valid @ModelAttribute("formModel") UserForm userForm,
             BindingResult result,
-            Model model){
+            Model model) {
         // パスワード確認チェック
         if (!result.hasFieldErrors("passwordConfirm") &&
                 !userForm.getPassword().equals(userForm.getPasswordConfirm())) {
             result.rejectValue("passwordConfirm", null, "パスワードとパスワード確認が一致しません");
         }
         UserForm userPass = userService.findByAccount(userForm.getAccount());
-        // アカウント重複チェック
-        if (userPass.getId() != userForm.getId()) {
+//        // アカウント重複チェック
+        if ((userPass != null ) && (userPass.getId() != userForm.getId())) {
             result.rejectValue("account", "duplicate", "アカウントが重複しています");
         }
+//        if (userService.AccountDuB(userForm.getAccount())) {
+//            result.rejectValue("account", "duplicate", "アカウントが重複しています");
+//        }
 
         // 支社と部署の組み合わせチェック
         if (!userService.BranchDepartmentComb(userForm.getBranchId(), userForm.getDepartmentId())) {
-            result.rejectValue("branchId", "mismatch","支社と部署の組み合わせが不正です");
-        }
-
-        if(userForm.getPassword().matches("^[a-zA-Z]+$") && (userForm.getPassword().length() >= 6 && userForm.getPassword().length()<= 20)){
-            userService.saveUser(userForm);
-            return "redirect:/management";
+            result.rejectValue("branchId", "mismatch", "支社と部署の組み合わせが不正です");
         }
 
 
 
-        if (!userForm.getPassword().isBlank() &&!userForm.getPassword().matches("^[a-zA-Z]+$")){
-            result.rejectValue("password", "duplicate","パスワードは半角かつ6文字以上20文字以内で入力してください");
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z]+$")) {
+            result.rejectValue("password", "duplicate", "パスワードは半角かつ6文字以上20文字以内で入力してください");
         }
 
-        if((!userForm.getPassword().isBlank() && userForm.getPassword().length() < 6) || userForm.getPassword().length() > 20){
-            result.rejectValue("password", "duplicate","パスワードは6文字以上20文字以内で入力してください");
+        if ((!userForm.getPassword().isBlank() && userForm.getPassword().length() < 6) || userForm.getPassword().length() > 20) {
+            result.rejectValue("password", "duplicate", "パスワードは6文字以上20文字以内で入力してください");
         }
 
         if (result.hasErrors()) {
@@ -140,8 +138,12 @@ public class UserEditController {
             model.addAttribute("departmentOptions", getDepartmentOptions());
             return "userEdit"; // フォワードで遷移
         }
+        if (userForm.getPassword().matches("^[a-zA-Z]+$") && (userForm.getPassword().length() >= 6 && userForm.getPassword().length() <= 20)) {
+            userService.saveUser(userForm);
+            return "redirect:/management";
+        }
 
-    userForm.setPassword(userPass.getPassword());
+        userForm.setPassword(Objects.requireNonNull(userPass).getPassword());
 
         userService.saveUser(userForm);
         return "redirect:/management";

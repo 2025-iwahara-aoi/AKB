@@ -43,6 +43,7 @@ public class UserForm {
     @Size(max = 10, message = "氏名は10文字以内で入力してください", groups = {SingUpGroup.class, EditGroup.class})
     private String name;
 
+
     private Integer branchId;
 
     private Integer  departmentId;
