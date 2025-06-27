@@ -45,7 +45,7 @@
         <div class="message-icon" th:each="messageInfo : ${messages}">
             <div class="text-time">
                 <strong>投稿日時：</strong>
-                <span th:text="${#dates.format(messageInfo.createdDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
+                <span th:text="${messageInfo.ReTimeText}"></span>
             </div>
             <div class="text">
                 <strong>Id :</strong> <span th:text="${messageInfo.id}"/>

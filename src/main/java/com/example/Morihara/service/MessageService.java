@@ -5,6 +5,7 @@ import com.example.Morihara.controller.Form.UserForm;
 import com.example.Morihara.repository.MessageRepository;
 import com.example.Morihara.repository.entity.Message;
 import com.example.Morihara.repository.entity.User;
+import com.example.Morihara.util.TimeUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,7 @@ public class MessageService {
             message.setUserId(result.getUserId());
             message.setCreatedDate(result.getCreatedDate());
             message.setUpdatedDate(result.getUpdatedDate());
+            message.setReTimeText(TimeUtils.ReTime(result.getCreatedDate()));
             messages.add(message);
         }
         return messages;

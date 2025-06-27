@@ -21,15 +21,17 @@
 
 <div class="main-management" th:each="user : ${users}" th:object="${users}">
     <!--  新規タスク -->
-    <td> ID　　:　<span class="wrap-text" th:text="${user.id}"></span></td>
+    <td>       ID　　 :　<span class="wrap-text" th:text="${user.id}"></span></td>
     <br/>
-    <td>アカウント名：　<span class="wrap-text" th:text="${user.account}"></span></td>
+    <td>アカウント名   ：　<span class="wrap-text" th:text="${user.account}"></span></td>
     <br/>
-    <td> 氏名 ：　<span class="wrap-text" th:text="${user.name}"></span></td>
+    <td>      氏名    :  <span class="wrap-text" th:text="${user.name}"></span></td>
     <br/>
-    <td> 支社　:　<span class="wrap-text" th:text="${user.branch.branchName}"></span></td>
+    <td> 最終ログイン日時:  <span th:text="${user.ReTimeText}"></span></td>
     <br/>
-    <td>部署　：　<span class="wrap-text" th:text="${user.department.departmentName}"></span></td>
+    <td>     支社　   :　<span class="wrap-text" th:text="${user.branch.branchName}"></span></td>
+    <br/>
+    <td>     部署　   :　<span class="wrap-text" th:text="${user.department.departmentName}"></span></td>
     <br/>
 
     <form th:action="@{/updateStatus}" th:method="post"

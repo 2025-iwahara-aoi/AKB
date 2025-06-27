@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -55,5 +56,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "branch_id", insertable = false, updatable = false)
     private Branch branch;
+
+    @Column(name="last_login")
+    private LocalDateTime lastLogin;
 
 }

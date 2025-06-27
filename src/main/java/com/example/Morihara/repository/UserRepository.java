@@ -25,5 +25,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findById(int id);
 
     List<User> findAllByOrderByIdAsc();
+
 }
 
