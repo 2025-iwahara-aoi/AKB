@@ -13,34 +13,35 @@
 <div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert">
     <strong th:text="${errorMessageForm}"></strong>
 </div>
+<div class="blackboard">
+    <div class="message-icon" th:object="${formModel}">
+        <form th:method="post" th:action="@{/addMessage}" th:object="${messageInfo}">
+            <div class="form-area">
+                <label>件名　
+                    <input type="text" th:field="*{title}" class="chalk-text"/>
+                </label>
+                <div th:if="${#fields.hasErrors('title')}" style="color:red;" th:errors="*{title}"></div>
 
-<div class="main-contents" th:object="${formModel}">
-    <form th:method="post" th:action="@{/addMessage}" th:object="${messageInfo}">
-        <div class="form-area">
-            <label>件名　
-                <input type="text" th:field="*{title}" />
-            </label>
-            <div th:if="${#fields.hasErrors('title')}" style="color:red;" th:errors="*{title}"></div>
+                <label>カテゴリ　
+                    <input type="text" th:field="*{category}" class="chalk-text"/><br/>
+                </label>
+                <div th:if="${#fields.hasErrors('category')}" style="color:red;" th:errors="*{category}"></div>
 
-            <label>カテゴリ　
-                <input type="text" th:field="*{category}" /><br/>
-            </label>
-            <div th:if="${#fields.hasErrors('category')}" style="color:red;" th:errors="*{category}"></div>
-
-            <label>本文</label><br/>
-            <textarea class="tweet-box" th:field="*{text}"></textarea><br/>
-            <div th:if="${#fields.hasErrors('text')}" style="color:red;" th:errors="*{text}"></div>
+                <label>本文</label><br/>
+                <textarea class="chalk-text" th:field="*{text}"></textarea><br/>
+                <div th:if="${#fields.hasErrors('text')}" style="color:red;" th:errors="*{text}"></div>
 
 
-            <input type="submit" value="投稿" />
-        </div>
-    </form>
-</div>
+                <input type="submit" value="投稿"/>
+            </div>
+        </form>
+    </div>
 
-<div class="footer-contents">
-    <form th:action="@{/home}">
-        <input type="submit" value="戻る" />
-    </form>
+    <div class="footer-contents">
+        <form th:action="@{/home}">
+            <input type="submit" value="戻る"/>
+        </form>
+    </div>
 </div>
 </body>
 </html>

@@ -54,18 +54,20 @@ body {
 
 .main-contents {
 	margin: 20px;
-	padding: 10px 10px 5px 10px;
         background-color:  #ddd;    /* 背景色指定 */
-	height: 100%;
 	width: 80%;
 }
 .main-contents1 {
-	margin: 20px;
-	padding: 10px 10px 5px 10px;
-	    text-align:  center;        /* 中央寄せ */
-        background-color:  #ddd;    /* 背景色指定 */
-	height: 100%;
-	width: 80%;
+  background-color: #3f5c3f;  /* 濃い緑 */
+  padding: 15px;
+  margin-bottom: 16px;
+  border: 3px solid #2a3d2a;
+  border-radius: 6px;
+  color: #DCEAD7;  /* 明るめの文字色 */
+  text-align: left;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 .logAut {
 display: block;
@@ -200,34 +202,23 @@ display: block;
 }
 
 .form-holder {
-			border-radius: 15px;
-			background-color: #fff;
-			overflow: hidden;
-			margin-top: 50px;
-			opacity: 1;
-			visibility: visible;
-			-webkit-transition: all .3s ease;
+  width: 360px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #2e4a2e;
+  border-radius: 10px;
+}
 
-			.input {
-				border: 0;
-				outline: none;
-				box-shadow: none;
-				display: block;
-				height: 30px;
-				line-height: 30px;
-				padding: 8px 15px;
-				border-bottom: 1px solid #eee;
-				width: 100%;
-				font-size: 12px;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
 
-				&:last-child {
-					border-bottom: 0;
-				}
-				&::-webkit-input-placeholder {
-					color: rgba(0,0,0,0.4);
-				}
-			}
-		}
+.form-field label {
+  margin-bottom: 0.5rem;
+  color: #f5f5f0;
+}
 
 		.submit-btn {
         			background-color: rgba(0,0,0,0.4);

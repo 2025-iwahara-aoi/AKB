@@ -22,32 +22,33 @@
     <button type="submit">ユーザー管理</button>
 </form>
 
-<div class="main-contents">
+<div class="blackboard">
     <!--  新規タスク -->
     <form th:action="@{/message}" th:method="get" th:object="${user}">
         <button type="submit">新規投稿</button>
     </form>
+    <div class="message-icon">
+        <!-- 検索フォーム -->
+        <form th:action="@{/home}" method="get">
+            <label>絞り込み <input type="date" name="startDate" th:value="${start}"/></label>
+            ～
+            <label><input type="date" name="endDate" th:value="${end}"/></label>
 
-    <!-- 検索フォーム -->
-    <form th:action="@{/home}" method="get">
-        <label>絞り込み <input type="date" name="startDate" th:value="${start}"/></label>
-        ～
-        <label><input type="date" name="endDate" th:value="${end}"/></label>
+            <label>カテゴリ　<input type="text" name="category" th:value="${category}"/></label>
 
-        <label>カテゴリ　<input type="text" name="category" th:value="${category}"/></label>
-
-        <button type="submit">絞込</button>
-    </form>
+            <button type="submit">絞込</button>
+        </form>
+    </div>
 </div>
 <div class="blackboard">
     <div class="blackboard-content">
         <h2 class="chalk-title">掲示板</h2>
         <div class="message-icon" th:each="messageInfo : ${messages}">
-            <div class="text-time">
+            <div class="chalk-text">
                 <strong>投稿日時：</strong>
                 <span th:text="${messageInfo.ReTimeText}"></span>
             </div>
-            <div class="text">
+            <div class="chalk-text">
                 <strong>Id :</strong> <span th:text="${messageInfo.id}"/>
                 <strong>件名 :</strong> <span th:text="${messageInfo.title}"/>
                 <strong>カテゴリ :</strong> <span th:text="${messageInfo.category}"/><br/>
