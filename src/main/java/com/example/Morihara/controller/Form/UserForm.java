@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -57,4 +58,7 @@ public class UserForm {
     private Department department;
 
     private Branch branch;
+
+    private LocalDateTime lastLogin;
+    private String ReTimeText;
 }

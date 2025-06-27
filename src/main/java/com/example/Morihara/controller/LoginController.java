@@ -45,28 +45,29 @@ public class LoginController {
         return mav;
     }
 
-  @PostMapping("/loading")
-  //@Validated(LoginGroup.class)←これが、Fromでバリデーションしてるグループを使うって意味
+    @PostMapping("/loading")
+    //@Validated(LoginGroup.class)←これが、Fromでバリデーションしてるグループを使うって意味
     public ModelAndView addContent(@Validated(UserForm.LoginGroup.class)
-            @Valid @ModelAttribute("formModel") UserForm userForm,
-            BindingResult result,
-            RedirectAttributes redirectAttributes,
-            Model model){
+                                   @Valid @ModelAttribute("formModel") UserForm userForm,
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes,
+                                   Model model) {
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView("/login");
             mav.addObject("formModel", userForm);
             return mav;
         }
-      // 投稿をテーブルに格納
-      UserForm userInfo = userService.findByAccount(userForm.getAccount());
+        // 投稿をテーブルに格納
+        UserForm userInfo = userService.findByAccount(userForm.getAccount());
 
         //DBから取得した情報がnullの時またはアカウントが停止中の時にエラーを表示させる
-      if (userInfo == null || userInfo.getIsStopped() == 1 || !passwordEncoder.matches(userForm.getPassword(), userInfo.getPassword())) {
-          //フラッシュメッセージをセット
-          model.addAttribute("errorMessageForm", "ログインに失敗しました");
-          model.addAttribute("formModel", userForm);
-          return new ModelAndView("/login");
+        if (userInfo == null || userInfo.getIsStopped() == 1 || !passwordEncoder.matches(userForm.getPassword(), userInfo.getPassword())) {
+            //フラッシュメッセージをセット
+            model.addAttribute("errorMessageForm", "ログインに失敗しました");
+            model.addAttribute("formModel", userForm);
+            return new ModelAndView("/login");
         }
+        userService.updateLastLogin(userInfo.getId());
         session.setAttribute("user", userInfo);
         // rootへリダイレクト
         return new ModelAndView("redirect:/home");

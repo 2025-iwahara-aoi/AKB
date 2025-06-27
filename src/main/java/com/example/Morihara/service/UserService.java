@@ -3,6 +3,7 @@ package com.example.Morihara.service;
 import com.example.Morihara.controller.Form.UserForm;
 import com.example.Morihara.repository.UserRepository;
 import com.example.Morihara.repository.entity.User;
+import com.example.Morihara.util.TimeUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -80,6 +82,8 @@ public class UserService {
             user.setDepartment(result.getDepartment());
             user.setCreatedDate(result.getCreatedDate());
             user.setUpdatedDate(result.getUpdatedDate());
+            user.setLastLogin(result.getLastLogin());
+            user.setReTimeText(TimeUtils.ReTime(result.getLastLogin()));
             users.add(user);
         }
         return users;
@@ -106,6 +110,7 @@ public class UserService {
         report.setBranchId(reqUser.getBranchId());
         report.setDepartmentId(reqUser.getDepartmentId());
         report.setIsStopped(reqUser.getIsStopped());
+        report.setLastLogin(reqUser.getLastLogin());
         return report;
     }
 
@@ -139,6 +144,16 @@ public class UserService {
         List<UserForm> userForm = setUserForm(user);
 
         return userForm.get(0);
+    }
+
+    @Transactional
+    public void updateLastLogin(Integer userId) {
+        Optional<User> opt = userRepository.findById(userId);
+        if(opt.isPresent()) {
+            User u = opt.get();
+            u.setLastLogin(LocalDateTime.now());
+            userRepository.save(u);
+        }
     }
 
 
