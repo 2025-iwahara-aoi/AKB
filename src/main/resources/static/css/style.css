@@ -5,6 +5,40 @@ body {
    font-family: 'Chalkboard SE', cursive, sans-serif;
  }
 
+ .kotei {
+   position: sticky; /* ここに注目! */
+   top: 0;
+   background-color: #3f5c3f;  /* 濃い緑 */
+   color: #DCEAD7;  /* 明るめの文字色 */
+   box-shadow: 0 0 8px rgba(0,0,0,0.2);
+   font-size: 1rem;
+   line-height: 1.5;
+     border: 3px solid #2a3d2a;
+     border-radius: 6px;
+     color: #DCEAD7;  /* 明るめの文字色 */
+
+ }
+
+ .button-rightTop {
+  position: absolute; /* position を指定 */
+     top: 40px;
+     right: 20px;
+ }
+
+  .kotei2 {
+    position: sticky; /* ここに注目! */
+    top: 0;
+    background-color: #3f5c3f;  /* 濃い緑 */
+    color: #DCEAD7;  /* 明るめの文字色 */
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    font-size: 1rem;
+    line-height: 1.5;
+      border: 3px solid #2a3d2a;
+      border-radius: 6px;
+      color: #DCEAD7;  /* 明るめの文字色 */
+
+  }
+
 /* 黒板外枠 */
 .blackboard {
   margin: 20px auto;
@@ -35,6 +69,30 @@ body {
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
   font-size: 1rem;
   line-height: 1.5;
+}
+
+
+.round-button {
+    position: fixed;
+    bottom: 20px;
+    right: 25px;
+    width: 70px;
+    height: 70px;
+    background-color: #4CAF50;
+    color: block;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+        color: #DCEAD7;  /* 明るめの文字色 */
+        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        font-size: 1rem;
+        line-height: 1.5;
+          border: 3px solid #2a3d2a;
+          border-radius: 6px;
+          color: #DCEAD7;  /* 明るめの文字色 */
 }
 
 
@@ -110,9 +168,7 @@ display: block;
 
 .mouse{
      margin: 30px 0px 0px 30px;
-     display: inline-block;
-      position   : relative;
-    }
+     display: inline-block;    }
     .mouse:hover .word {
       display: inline;
     }
