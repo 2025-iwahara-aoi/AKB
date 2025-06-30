@@ -6,27 +6,34 @@
     <title>ホーム画面</title>
 </head>
 <body>
-<div class="header-contents">
-    <h1>ホーム画面</h1>
-    <div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert">
-        <strong th:text="${errorMessageForm}"></strong>
+<div class="kotei">
+    <div class="header-contents">
+        <h1>ホーム画面</h1>
+        <div th:if="${errorMessageForm}" class="alert alert-error alert-dismissible fade show" role="alert">
+            <strong th:text="${errorMessageForm}"></strong>
+        </div>
+        <p>本日の日付: <span th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm:ss')}"></span></p>
     </div>
-    <p>本日の日付: <span th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm:ss')}"></span></p>
+    <div class="button-rightTop">
+        <form th:action="@{/logout}">
+            <button type="submit">ログアウト</button>
+        </form>
+        <!--and session.user.departmentId == session.user.department.id == 1 session.user.branch.id -->
+        <form th:action="@{/management}" th:method="get" th:object="${user}"
+              th:if="${session.user.branchId == 1 and session.user.departmentId == 1}">
+            <button type="submit">ユーザー管理</button>
+        </form>
+    </div>
 </div>
-<form th:action="@{/logout}" class="logAut">
-    <button type="submit">ログアウト</button>
-</form>
-<!--and session.user.departmentId == session.user.department.id == 1 session.user.branch.id -->
-<form th:action="@{/management}" th:method="get" th:object="${user}"
-      th:if="${session.user.branchId == 1 and session.user.departmentId == 1}">
-    <button type="submit">ユーザー管理</button>
-</form>
-
+<!--  新規タスク -->
+<div class="button">
+    <a class="button-link bg-extend-left">
+        <form th:action="@{/message}" th:method="get" th:object="${user}">
+            <button class="round-button">投稿</button>
+        </form>
+    </a>
+</div>
 <div class="blackboard">
-    <!--  新規タスク -->
-    <form th:action="@{/message}" th:method="get" th:object="${user}">
-        <button type="submit">新規投稿</button>
-    </form>
     <div class="message-icon">
         <!-- 検索フォーム -->
         <form th:action="@{/home}" method="get">
@@ -68,22 +75,23 @@
                 <div class="read-button">
                     <div th:each="read : ${messageInfo.reads}">
                         <p th:if="${read.userId == session.user.id}" style="color:red">
-                            既読済み
+                            good済み
                         </p>
                     </div>
-                    <form th:action="@{/read}" th:method="post"
+                    <form class="readB" th:action="@{/read}" th:method="post"
                           th:if="${session.user.id != messageInfo.userId}">
                         <input type="hidden" name="userId" th:value="${session.user.id}"/>
                         <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
-                        <input type="submit" value="既読にする"/>
+                        <input type="submit" value="いいね"/>
                     </form>
 
-                    <div class="mouse"> 既読数　　:　<span class="wrap-text" th:text="${messageInfo.count}"></span><br/>
+                    <div class="mouse"> 👍　:　<span class="wrap-text" th:text="${messageInfo.count}"></span><br/>
                         <div class="word">
-                            既読済アカウント<p th:each="read : ${messageInfo.reads}" th:text="${read.account}"></p>
+                            good済アカウント<p th:each="read : ${messageInfo.reads}" th:text="${read.account}"></p>
                         </div>
                     </div>
                 </div>
+
                 <!-- コメント投稿フォーム -->
                 <form th:action="@{/addComment}" method="post" th:object="${commentForm}">
                     <input type="hidden" name="messageId" th:value="${messageInfo.id}"/>
